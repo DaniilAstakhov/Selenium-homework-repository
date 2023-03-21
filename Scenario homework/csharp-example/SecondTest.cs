@@ -27,11 +27,6 @@ namespace csharp_example
             CHdriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
         }
 
-        bool AreElementsPresent(IWebElement element, By locator)
-        {
-            return element.FindElements(locator).Count > 0;
-        }
-
         [Test]
         public void FirstTest()
         {
