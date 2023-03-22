@@ -37,6 +37,7 @@ namespace csharp_example
             for (int i = 1; i <= 5; i++)
             {
                 BoxMostPopular.FindElement(By.XPath("//li[@class='product column shadow hover-light']["+i+"]//div[starts-with(@class,'sticker')]")); //Проверка наличия одного стикера у товаров в блоке Most Popular
+                //CHdriver.FindElement(By.XPath("//div[@id='box-most-popular']//li[@class='product column shadow hover-light']["+i+"]//div[starts-with(@class,'sticker')]"));
             }
 
             IWebElement BoxCampaigns = CHdriver.FindElement(By.XPath("//div[@id='box-campaigns']")); //Блок Campaigns
