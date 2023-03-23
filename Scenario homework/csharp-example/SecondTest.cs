@@ -53,14 +53,14 @@ namespace csharp_example
             {
                 IReadOnlyCollection<IWebElement> Sticker = BoxCampaigns.FindElements(By.XPath(".//li[starts-with(@class,'product')][" + i + "]//div[starts-with(@class,'sticker')]")); //Получение всех стикеров для одного товара
                 string message = "Количество стикеров для товара " + i + " в блоке Campaigns не равно 1"; //Cообщение на случай если количество стикеров не равно единице
-                Assert.That(Sticker.Count != 1, message);
+                Assert.False(Sticker.Count != 1, message);
             }
 
             for (int i = 1; i <= LatestProducts.Count; i++) // Проверка на ровно один стикер для товаров блока Latest Products
             {
                 IReadOnlyCollection<IWebElement> Sticker = BoxLatestProducts.FindElements(By.XPath(".//li[starts-with(@class,'product')][" + i + "]//div[starts-with(@class,'sticker')]")); //Получение всех стикеров для одного товара
                 string message = "Количество стикеров для товара " + i + " в блоке Latest Products не равно 1"; //Cообщение на случай если количество стикеров не равно единице
-                Assert.That(Sticker.Count != 1, message);
+                Assert.False(Sticker.Count != 1, message);
             }
         }
 
