@@ -33,20 +33,20 @@ namespace csharp_example
             CHdriver.Manage().Cookies.DeleteAllCookies();
             CHdriver.Url = "http://localhost:8080/litecart/en/";
             
-            IWebElement BoxMostPopular = CHdriver.FindElement(By.XPath("//div[@id='box-most-popular']")); //Блок Most Popular
+            
             for (int i = 1; i <= 5; i++)
             {
-                BoxMostPopular.FindElement(By.XPath("//li[@class='product column shadow hover-light']["+i+"]//div[starts-with(@class,'sticker')]")); //Проверка наличия одного стикера у товаров в блоке Most Popular
-                //CHdriver.FindElement(By.XPath("//div[@id='box-most-popular']//li[@class='product column shadow hover-light']["+i+"]//div[starts-with(@class,'sticker')]"));
+                IWebElement BoxMostPopular = CHdriver.FindElement(By.XPath("//div[@id='box-most-popular']")); //Блок Most Popular
+                BoxMostPopular.FindElement(By.XPath(".//li[@class='product column shadow hover-light']["+i+"]//div[starts-with(@class,'sticker')]")); //Проверка наличия одного стикера у товаров в блоке Most Popular
             }
 
             IWebElement BoxCampaigns = CHdriver.FindElement(By.XPath("//div[@id='box-campaigns']")); //Блок Campaigns
-            BoxCampaigns.FindElement(By.XPath("//li[@class='product column shadow hover-light'][1]//div[starts-with(@class,'sticker')]")); //Проверка наличия одного стикера у товара в блоке Campaigns
+            BoxCampaigns.FindElement(By.XPath(".//li[@class='product column shadow hover-light'][1]//div[starts-with(@class,'sticker')]")); //Проверка наличия одного стикера у товара в блоке Campaigns
 
             IWebElement BoxLatestProducts = CHdriver.FindElement(By.XPath("//div[@id='box-latest-products']")); //Блок Latest Products
             for (int i = 1; i <= 5; i++)
             {
-                BoxLatestProducts.FindElement(By.XPath("//li[@class='product column shadow hover-light']["+i+"]//div[starts-with(@class,'sticker')]")); //Проверка наличия одного стикера у товаров в блоке Most Popular
+                BoxLatestProducts.FindElement(By.XPath(".//li[@class='product column shadow hover-light']["+i+"]//div[starts-with(@class,'sticker')]")); //Проверка наличия одного стикера у товаров в блоке Most Popular
             }
         }
 
