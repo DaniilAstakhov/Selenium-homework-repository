@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Assert = NUnit.Framework.Assert;
 
 namespace csharp_example
 {
@@ -32,21 +33,34 @@ namespace csharp_example
         {
             CHdriver.Manage().Cookies.DeleteAllCookies();
             CHdriver.Url = "http://localhost:8080/litecart/en/";
-            
-            
-            for (int i = 1; i <= 5; i++)
+            IWebElement BoxMostPopular = CHdriver.FindElement(By.Id("box-most-popular")); // Ищем блок Most Popular
+            IReadOnlyCollection<IWebElement> MostPopProducts = BoxMostPopular.FindElements(By.XPath(".//li[starts-with(@class,'product')]")); //Ищем все элементы товаров в блоке Most Popular
+
+            IWebElement BoxCampaigns = CHdriver.FindElement(By.Id("box-campaigns")); // Ищем блок Campaigns
+            IReadOnlyCollection<IWebElement> CampaignsProducts = BoxCampaigns.FindElements(By.XPath(".//li[starts-with(@class,'product')]")); //Ищем все элементы товаров в блоке Most Popular
+
+            IWebElement BoxLatestProducts = CHdriver.FindElement(By.Id("box-latest-products")); // Ищем блок Latest Products
+            IReadOnlyCollection<IWebElement> LatestProducts = BoxLatestProducts.FindElements(By.XPath(".//li[starts-with(@class,'product')]")); //Ищем все элементы товаров в блоке Most Popular
+
+            for (int i = 1; i <= MostPopProducts.Count; i++) // Проверка на ровно один стикер для товаров блока Most popular
             {
-                IWebElement BoxMostPopular = CHdriver.FindElement(By.XPath("//div[@id='box-most-popular']")); //Блок Most Popular
-                BoxMostPopular.FindElement(By.XPath(".//li[@class='product column shadow hover-light']["+i+"]//div[starts-with(@class,'sticker')]")); //Проверка наличия одного стикера у товаров в блоке Most Popular
+                IReadOnlyCollection<IWebElement> Sticker = BoxMostPopular.FindElements(By.XPath(".//li[starts-with(@class,'product')][" + i + "]//div[starts-with(@class,'sticker')]")); //Получение всех стикеров для одного товара
+                string message = "Количество стикеров для товара " + i + " в блоке MostPopular не равно 1"; //Cообщение на случай если количество стикеров не равно единице
+                Assert.False(Sticker.Count != 1, message);
             }
 
-            IWebElement BoxCampaigns = CHdriver.FindElement(By.XPath("//div[@id='box-campaigns']")); //Блок Campaigns
-            BoxCampaigns.FindElement(By.XPath(".//li[@class='product column shadow hover-light'][1]//div[starts-with(@class,'sticker')]")); //Проверка наличия одного стикера у товара в блоке Campaigns
-
-            IWebElement BoxLatestProducts = CHdriver.FindElement(By.XPath("//div[@id='box-latest-products']")); //Блок Latest Products
-            for (int i = 1; i <= 5; i++)
+            for (int i = 1; i <= CampaignsProducts.Count; i++) // Проверка на ровно один стикер для товаров блока Campaigns
             {
-                BoxLatestProducts.FindElement(By.XPath(".//li[@class='product column shadow hover-light']["+i+"]//div[starts-with(@class,'sticker')]")); //Проверка наличия одного стикера у товаров в блоке Most Popular
+                IReadOnlyCollection<IWebElement> Sticker = BoxCampaigns.FindElements(By.XPath(".//li[starts-with(@class,'product')][" + i + "]//div[starts-with(@class,'sticker')]")); //Получение всех стикеров для одного товара
+                string message = "Количество стикеров для товара " + i + " в блоке Campaigns не равно 1"; //Cообщение на случай если количество стикеров не равно единице
+                Assert.That(Sticker.Count != 1, message);
+            }
+
+            for (int i = 1; i <= LatestProducts.Count; i++) // Проверка на ровно один стикер для товаров блока Latest Products
+            {
+                IReadOnlyCollection<IWebElement> Sticker = BoxLatestProducts.FindElements(By.XPath(".//li[starts-with(@class,'product')][" + i + "]//div[starts-with(@class,'sticker')]")); //Получение всех стикеров для одного товара
+                string message = "Количество стикеров для товара " + i + " в блоке Latest Products не равно 1"; //Cообщение на случай если количество стикеров не равно единице
+                Assert.That(Sticker.Count != 1, message);
             }
         }
 
