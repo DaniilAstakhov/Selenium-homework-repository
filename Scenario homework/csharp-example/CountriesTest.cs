@@ -99,7 +99,7 @@ namespace csharp_example
             CHdriver.FindElement(By.Name("login")).Click(); //login
         }
 
-        [TearDown]
+        [OneTimeTearDown]
         public void stop()
         {
             CHdriver.Quit();

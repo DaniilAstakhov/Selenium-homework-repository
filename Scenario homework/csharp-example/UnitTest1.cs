@@ -58,7 +58,7 @@ namespace csharp_example
             }
         }
 
-        [TearDown]
+        [OneTimeTearDown]
         public void stop()
         {
             CHdriver.Quit();

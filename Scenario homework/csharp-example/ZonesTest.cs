@@ -27,7 +27,7 @@ namespace csharp_example
         }
 
         [Test]
-        public void CountriesAndZonesTest()
+        public void ZonesSortTest()
         {
             CHdriver.Manage().Cookies.DeleteAllCookies();
             CHdriver.Url = "http://localhost:8080/litecart/admin";
@@ -55,12 +55,12 @@ namespace csharp_example
             }
         }
 
-        private void GetZonesList(IReadOnlyCollection<IWebElement> LocalZonesCount, List<string> ActualZounesList)
+        private void GetZonesList(IReadOnlyCollection<IWebElement> LocalZonesCount, List<string> ActualZonesList)
         {
             for (int a = 2; a <= LocalZonesCount.Count + 1; a++)
             {
                 IWebElement zone = CHdriver.FindElement(By.XPath("//tr["+a+"]//select[contains(@name,'zone_code')]//option[@selected='selected']"));
-                ActualZounesList.Add(zone.GetAttribute("textContent"));
+                ActualZonesList.Add(zone.GetAttribute("textContent"));
             }
         }
 
@@ -72,7 +72,7 @@ namespace csharp_example
             CHdriver.FindElement(By.Name("login")).Click(); //login
         }
 
-        [TearDown]
+        [OneTimeTearDown]
         public void stop()
         {
             CHdriver.Quit();
