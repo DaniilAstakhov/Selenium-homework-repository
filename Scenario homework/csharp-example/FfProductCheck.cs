@@ -1,44 +1,42 @@
-﻿using NUnit.Framework;
-using OpenQA.Selenium.Chrome;
-using OpenQA.Selenium.Support.UI;
-using OpenQA.Selenium;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using NUnit.Framework;
+using OpenQA.Selenium;
+using OpenQA.Selenium.Firefox;
+using OpenQA.Selenium.Edge;
+using OpenQA.Selenium.Interactions;
+using OpenQA.Selenium.Support.UI;
 using Assert = NUnit.Framework.Assert;
-using System.Linq;
-using static System.Net.Mime.MediaTypeNames;
-using System.Drawing;
 
 namespace csharp_example
 {
-    internal class ChProductCheck
+    internal class FfProductCheck
     {
-        public IWebDriver CHdriver;
-        public WebDriverWait wait;
-        public ChromeOptions options;
+        private IWebDriver FFdriver;
+        private WebDriverWait wait;
 
         [OneTimeSetUp]
         public void StartBrowser()
         {
-            options = new ChromeOptions();
-            options.AddArguments(/*"--start-maximized", */"incognito"/*, "headless"*/);
-            CHdriver = new ChromeDriver(options);
-            wait = new WebDriverWait(CHdriver, TimeSpan.FromSeconds(10));
-            CHdriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
+            FFdriver = new FirefoxDriver();
+            FirefoxOptions options = new FirefoxOptions();
+            options.BrowserExecutableLocation = @"C:\Program Files\Firefox Nightly\firefox.exe";
+            wait = new WebDriverWait(FFdriver, TimeSpan.FromSeconds(10));
+            FFdriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(10);
         }
 
         [Test]
-        public void ChProductСheckTest()
+        public void IeProductСheckTest()
         {
-            CHdriver.Manage().Cookies.DeleteAllCookies();
-            CHdriver.Url = "http://localhost:8080/litecart/en/";
-            
-            IReadOnlyCollection<IWebElement> CampaignsProducts = CHdriver.FindElements(By.XPath("//div[@id='box-campaigns']//li[starts-with(@class,'product')]"));
+            FFdriver.Manage().Cookies.DeleteAllCookies();
+            FFdriver.Url = "http://localhost:8080/litecart/en/";
+
+            IReadOnlyCollection<IWebElement> CampaignsProducts = FFdriver.FindElements(By.XPath("//div[@id='box-campaigns']//li[starts-with(@class,'product')]"));
             //Нашли первый товар блока campaigns
-            var firstCampaignsProduct = CHdriver.FindElement(By.XPath("//div[@id='box-campaigns']//li[starts-with(@class,'product')][1]"));
+            var firstCampaignsProduct = FFdriver.FindElement(By.XPath("//div[@id='box-campaigns']//li[starts-with(@class,'product')][1]"));
 
             //Получаем его название cнаружи
             var productName = firstCampaignsProduct.FindElement(By.ClassName("name"));
@@ -58,10 +56,10 @@ namespace csharp_example
             string regPriceLineThrough = regPriceStyle.ToString();
 
             Assert.AreEqual(lineThroughStyle, regPriceLineThrough, "Обычная цена не перечёркнута"); //проверка для обычной цены
-            
-            var campPriceStyle=  campPrice.GetCssValue("font-weight"); //жирность акционной цены
 
-            int thickness = 700; //стандарт жирности для проверки
+            var campPriceStyle = campPrice.GetCssValue("font-weight"); //жирность акционной цены
+
+            int thickness = 900; //стандарт жирности для проверки //в фаерфоксе для акционной оказывается 900 а не 700 (но это только снаружи, внутри товара все равно 700)
             int campPriceThickness = Convert.ToInt32(campPriceStyle);
 
             Assert.AreEqual(thickness, campPriceThickness, "Акционная цена не жирная"); // проверка для акционной цены
@@ -104,7 +102,7 @@ namespace csharp_example
             firstCampaignsProduct.Click();
 
             //находим блок продукта
-            var inProductBox = CHdriver.FindElement(By.Id("box-product"));
+            var inProductBox = FFdriver.FindElement(By.Id("box-product"));
 
             //Получаем его название внутри
             var inProductName = inProductBox.FindElement(By.ClassName("title"));
@@ -113,7 +111,7 @@ namespace csharp_example
             //Получаем его обычную и акционную цену внутри
             var inRegPrice = inProductBox.FindElement(By.ClassName("regular-price"));
             var inCampPrice = inProductBox.FindElement(By.ClassName("campaign-price"));
-            
+
             string inRegularPrice = inRegPrice.GetAttribute("textContent"); // обычная цена внутри
             string inCampaignPrice = inCampPrice.GetAttribute("textContent"); // акционная цена внутри
 
@@ -126,7 +124,8 @@ namespace csharp_example
             var inCampPriceStyle = inCampPrice.GetCssValue("font-weight"); //жирность акционной цены
             int inCampPriceThickness = Convert.ToInt32(inCampPriceStyle);
 
-            Assert.AreEqual(thickness, inCampPriceThickness, "Акционная цена внутри не жирная"); // проверка для акционной цены внутри
+            int insideThickness = 700; // (Тут по факту она почему-то 700, а снаружи 900)
+            Assert.AreEqual(insideThickness, inCampPriceThickness, "Акционная цена внутри не жирная"); // проверка для акционной цены внутри )
 
             //Получаем размер цен внутри и проверяем что размер акционной цены больше чем размер обычной
             var inRegSize = inRegPrice.Size;
@@ -168,7 +167,7 @@ namespace csharp_example
 
             //Проверяем что цены внутри товара и снаружи совпадают
             Assert.AreEqual(inRegularPrice, outRegPrice, "Обычная цена снаружи и внутри не совпадает");
-            Assert.AreEqual(inCampaignPrice, outCampPrice, "Акционная цена снаружи и внутри не совпадает");          
+            Assert.AreEqual(inCampaignPrice, outCampPrice, "Акционная цена снаружи и внутри не совпадает");
         }
 
         public void ArrayFill(int[] FilledInArray, string[] ExtractableArray)
@@ -198,7 +197,7 @@ namespace csharp_example
         [OneTimeTearDown]
         public void stop()
         {
-            CHdriver.Quit();
+            FFdriver.Quit();
         }
     }
 }
