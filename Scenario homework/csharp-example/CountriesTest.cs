@@ -38,10 +38,12 @@ namespace csharp_example
             IReadOnlyCollection<IWebElement> CountriesCount = CHdriver.FindElements(By.XPath("//tr[@class='row']"));
             
             List<string> ActualCountriesSort = new List<string>();
-            List<string> ActualCountriesSort2 = new List<string>();
+            
 
             GetCountriesList(CountriesCount, ActualCountriesSort);
-            GetCountriesList(CountriesCount, ActualCountriesSort2);
+            //GetCountriesList(CountriesCount, ActualCountriesSort2);
+
+            List<string> ActualCountriesSort2 = new List<string>(ActualCountriesSort);
 
             ActualCountriesSort.Sort();
 
@@ -59,10 +61,11 @@ namespace csharp_example
                     IReadOnlyCollection<IWebElement> LocalZonesCount = CHdriver.FindElements(By.XPath("//tr/td[3]/input[@type='hidden']"));
 
                     List<string> ActualZonesList = new List<string>();
-                    List<string> ActualZonesList2 = new List<string>();
+                    
 
                     GetZonesList(LocalZonesCount, ActualZonesList);
-                    GetZonesList(LocalZonesCount, ActualZonesList2);
+                    //GetZonesList(LocalZonesCount, ActualZonesList2);
+                    List<string> ActualZonesList2 = new List<string>(ActualZonesList);
 
                     ActualZonesList.Sort();
 
