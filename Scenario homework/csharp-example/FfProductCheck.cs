@@ -10,6 +10,7 @@ using OpenQA.Selenium.Edge;
 using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using Assert = NUnit.Framework.Assert;
+using System.Globalization;
 
 namespace csharp_example
 {
@@ -59,10 +60,10 @@ namespace csharp_example
 
             var campPriceStyle = campPrice.GetCssValue("font-weight"); //жирность акционной цены
 
-            int thickness = 900; //стандарт жирности для проверки //в фаерфоксе для акционной оказывается 900 а не 700 (но это только снаружи, внутри товара все равно 700)
+            int thickness = 700; //стандарт жирности для проверки //в фаерфоксе для акционной оказывается 900 а не 700 (но это только снаружи, внутри товара все равно 700)
             int campPriceThickness = Convert.ToInt32(campPriceStyle);
 
-            Assert.AreEqual(thickness, campPriceThickness, "Акционная цена не жирная"); // проверка для акционной цены
+            Assert.GreaterOrEqual(campPriceThickness, thickness, "Акционная цена не жирная"); // проверка для акционной цены
 
             //Получаем цвет цен
             var regPriceColor = regPrice.GetCssValue("color"); //цвет обычной цены
@@ -90,13 +91,13 @@ namespace csharp_example
             Assert.AreNotEqual(campPriceColorView[0], 0, "(Снаружи) Цвет акционной цены у товара не красный"); // дополнительная проверка что он точно красный
 
             //Получаем размер цен снаружи и проверяем что размер акционной цены больше чем размер обычной
-            var regSize = regPrice.Size;
-            var campSize = campPrice.Size;
+            string regFontSize = regPrice.GetCssValue("font-size"); // Размер шрифта обычной цены
+            string campFontSize = campPrice.GetCssValue("font-size"); // Размер шрифта акционной цены
 
-            int regSizeFull = regSize.Width + regSize.Height;
-            int campSizeFull = campSize.Width + campSize.Height;
+            double regFontSizeFull = double.Parse(regFontSize.Replace("px", ""), NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
+            double campFontSizeFull = double.Parse(campFontSize.Replace("px", ""), NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
 
-            Assert.True(campSizeFull > regSizeFull, "(Снаружи) Размер акционной цены меньше размера обычной!");
+            Assert.True(campFontSizeFull > regFontSizeFull, "(Снаружи) Размер акционной цены меньше размера обычной!");
 
             //Переходим внутрь товара
             firstCampaignsProduct.Click();
@@ -125,16 +126,16 @@ namespace csharp_example
             int inCampPriceThickness = Convert.ToInt32(inCampPriceStyle);
 
             int insideThickness = 700; // (Тут по факту она почему-то 700, а снаружи 900)
-            Assert.AreEqual(insideThickness, inCampPriceThickness, "Акционная цена внутри не жирная"); // проверка для акционной цены внутри )
+            Assert.GreaterOrEqual(inCampPriceThickness, insideThickness, "Акционная цена внутри не жирная"); // проверка для акционной цены внутри )
 
             //Получаем размер цен внутри и проверяем что размер акционной цены больше чем размер обычной
-            var inRegSize = inRegPrice.Size;
-            var inCampSize = inCampPrice.Size;
+            var inRegFontSize = inRegPrice.GetCssValue("font-size");
+            var inCampFontSize = inCampPrice.GetCssValue("font-size");
 
-            int inRegSizeFull = inRegSize.Width + inRegSize.Height;
-            int inCampSizeFull = inCampSize.Width + inCampSize.Height;
+            double inRegFontSizeFull = double.Parse(inRegFontSize.Replace("px", ""), NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
+            double inCampFontSizeFull = double.Parse(inCampFontSize.Replace("px", ""), NumberStyles.AllowDecimalPoint, CultureInfo.InvariantCulture);
 
-            Assert.True(inCampSizeFull > inRegSizeFull, "(Внутри) Размер акционной цены меньше размера обычной!");
+            Assert.True(inCampFontSizeFull > inRegFontSizeFull, "(Внутри) Размер акционной цены меньше размера обычной!");
 
 
             //Получаем цвет цен внутри
