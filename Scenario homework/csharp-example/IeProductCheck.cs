@@ -14,6 +14,7 @@ using Assert = NUnit.Framework.Assert;
 
 namespace csharp_example
 {
+    [TestFixture]
     internal class IeProductCheck
     {
         private IWebDriver Edriver;

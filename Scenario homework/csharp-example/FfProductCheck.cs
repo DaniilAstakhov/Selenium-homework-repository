@@ -14,6 +14,7 @@ using System.Globalization;
 
 namespace csharp_example
 {
+    [TestFixture]
     internal class FfProductCheck
     {
         private IWebDriver FFdriver;

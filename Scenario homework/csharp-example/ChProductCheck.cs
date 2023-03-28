@@ -15,6 +15,7 @@ using System.Globalization;
 
 namespace csharp_example
 {
+    [TestFixture]
     internal class ChProductCheck
     {
         public IWebDriver CHdriver;

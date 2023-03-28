@@ -11,6 +11,7 @@ using Assert = NUnit.Framework.Assert;
 
 namespace csharp_example
 {
+    [TestFixture]
     internal class CountriesTest
     {
         public IWebDriver CHdriver;

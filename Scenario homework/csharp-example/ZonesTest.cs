@@ -8,8 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Assert = NUnit.Framework.Assert;
+
 namespace csharp_example
 {
+    [TestFixture]
     internal class ZonesTest
     {
         public IWebDriver CHdriver;
