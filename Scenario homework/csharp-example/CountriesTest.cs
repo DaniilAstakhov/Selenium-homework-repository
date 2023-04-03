@@ -38,20 +38,14 @@ namespace csharp_example
 
             IReadOnlyCollection<IWebElement> CountriesCount = CHdriver.FindElements(By.XPath("//tr[@class='row']"));
             
-            List<string> ActualCountriesSort = new List<string>();
-            
-
+            List<string> ActualCountriesSort = new List<string>();            
             GetCountriesList(CountriesCount, ActualCountriesSort);
-            //GetCountriesList(CountriesCount, ActualCountriesSort2);
-
             List<string> ActualCountriesSort2 = new List<string>(ActualCountriesSort);
-
             ActualCountriesSort.Sort();
 
             Assert.IsTrue(ActualCountriesSort2.SequenceEqual(ActualCountriesSort), "Некорректная сортировка алфавитного порядка стран");
 
             //Вторая проверка, по зонам
-
             for (int i = 2; i <= CountriesCount.Count + 1; i++)
             {
                 var zonesCount = CHdriver.FindElement(By.XPath("//td[@id='content']//tr["+i+"]/td[6]"));
@@ -74,10 +68,7 @@ namespace csharp_example
                     CHdriver.FindElement(By.Name("cancel")).Click();
                 }
             }
-
-
         }
-
         private void GetZonesList(IReadOnlyCollection<IWebElement> LocalZonesCount, List<string> ActualZounesList)
         {
             for (int a = 2; a <= LocalZonesCount.Count + 1; a++)
@@ -86,7 +77,6 @@ namespace csharp_example
                 ActualZounesList.Add(zone.Text);
             }
         }
-
         private void GetCountriesList(IReadOnlyCollection<IWebElement> CountriesCount, List<string> ActualCountriesSort)
         {
             for (int i = 2; i <= CountriesCount.Count + 1; i++)

@@ -28,7 +28,7 @@ namespace csharp_example
             options.AddArguments(/*"--start-maximized", */"incognito"/*, "headless"*/);
             CHdriver = new ChromeDriver(options);
             wait = new WebDriverWait(CHdriver, TimeSpan.FromSeconds(3));
-            CHdriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
+            //CHdriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
         }
 
         [Test]
@@ -97,15 +97,12 @@ namespace csharp_example
         {
             try
             {
-                CHdriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
                 CHdriver.FindElement(locator);
                 isElementPresent = true;
-                CHdriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
             }
             catch (Exception)
             {
                 isElementPresent = false;
-                CHdriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
             }
             return isElementPresent;
         }
@@ -114,13 +111,10 @@ namespace csharp_example
         {
             try
             {
-                CHdriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(1);
                 CHdriver.FindElement(locator).Click();
-                CHdriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
             }
             catch (Exception)
             {
-                CHdriver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(3);
             }
         }
 
