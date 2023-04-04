@@ -84,7 +84,7 @@ namespace csharp_example
                 //Проверяем случай что товаров для удаления может больше не быть, и если это так, то завершаем цикл
                 bool isElementPresent = false;
                 isElementPresent = IsElementPresent(isElementPresent, By.XPath("//em[.='There are no items in your cart.']"));
-
+                
                 if (isElementPresent == true)
                 {
                     goto end;
