@@ -21,6 +21,7 @@ namespace csharp_example
         public void StartBrowser()
         {
             options = new ChromeOptions();
+            options.SetLoggingPreference("browser", LogLevel.Debug);
             options.AddArguments(/*"--start-maximized", */"incognito"/*, "headless"*/);
             CHdriver = new ChromeDriver(options);
             wait = new WebDriverWait(CHdriver, TimeSpan.FromSeconds(5));
