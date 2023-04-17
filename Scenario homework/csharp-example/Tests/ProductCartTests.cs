@@ -13,7 +13,7 @@ using SeleniumExtras.WaitHelpers;
 namespace csharp_example
 {
     [TestFixture]
-    internal class ProductCartTests
+    internal class ProductCartTests : TestBase
     {
 
 

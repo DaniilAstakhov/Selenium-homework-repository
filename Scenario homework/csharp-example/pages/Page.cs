@@ -18,5 +18,30 @@ namespace csharp_example
             this.driver = driver;
             this.wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
         }
+
+        public bool IsElementPresent(bool isElementPresent, By locator)
+        {
+            try
+            {
+                driver.FindElement(locator);
+                isElementPresent = true;
+            }
+            catch (Exception)
+            {
+                isElementPresent = false;
+            }
+            return isElementPresent;
+        }
+
+        public void TryClick(By locator)
+        {
+            try
+            {
+                driver.FindElement(locator).Click();
+            }
+            catch (Exception)
+            {
+            }
+        }
     }
 }

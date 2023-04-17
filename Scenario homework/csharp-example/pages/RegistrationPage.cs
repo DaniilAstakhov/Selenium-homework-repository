@@ -13,7 +13,7 @@ namespace csharp_example
     {
         public RegistrationPage(IWebDriver driver) : base(driver)
         {
-            PageFactory.InitElements(driver, this);
+            //PageFactory.InitElements(driver, this);
         }
 
         internal void Open()
